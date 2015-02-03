@@ -1,0 +1,24 @@
+{
+  "name": "cancer-analytics",
+  "version": "0.0.0",
+  "authors": [
+    "Casper Lai <casper.lai@sleepingdesign.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "flat-ui": "~2.2.2",
+    "angularjs": "1.2.*",
+    "papaparse": "~4.0.7",
+    "angular-route": "1.2.*",
+    "ng-underscore": "~0.1.0",
+    "angular-dialog-service": "~5.2.6",
+    "angular-sweetalert": "~1.0.3"
+  }
+}
