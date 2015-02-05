@@ -1,4 +1,4 @@
-var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAlert) {
+var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAlert, parseIntFilterEmpty) {
   $scope.reports = [];
 
   // 18
@@ -25,38 +25,51 @@ var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAler
 
   // action
   var action = {
-    count: [],
-    cervix: [],
-    breast: [],
-    lecture: [],
-    community: [],
+    count: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
+    cervix: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
+    breast: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
+    lecture: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
+    community: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
     // man: 子抹
     // female: 乳攝
-    work: [],
-  };
-
-  // count
-  var people = {
-    count: 0,
-    man: 0,
-    female: 0
+    work: {
+      count: 0,
+      man: 0,
+      female: 0
+    },
   };
 
   $scope.init = function () {
-    underscore.each(action, function (value, index) {
-      action[index] = underscore.clone(people);
-    });
     underscore.each(area, function (value, index) {
       var items = [];
       for (var i = 0; i < 12; i++) {
-        items.push(underscore.clone(action));
+        items.push($.extend(true, {}, action));
       }
       $scope.reports.push({
           name: value,
           data: items
         });
     });
-    console.log($scope.reports);
   };
 
   $scope.analytics = function () {
@@ -70,9 +83,30 @@ var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAler
         complete: function (results) {
           results.data.shift();
           underscore.each(results.data, function (value, index) {
+            var month = new Date(value[2]).getMonth();
+            var entity = underscore.findWhere($scope.reports, {name: value[1]});
 
+            // check
+            if (parseIntFilterEmpty(value[3]) > 0 || parseIntFilterEmpty(value[4]) > 0) {
+              entity.data[month].count.count++;
+            }
+            entity.data[month].cervix.count += parseIntFilterEmpty(value[3]);
+            entity.data[month].breast.count += parseIntFilterEmpty(value[4]);
+
+            if (value[5] !== '' && value[5] !== '0') {
+              entity.data[month].lecture.count++;
+            }
+
+            entity.data[month].community.man += parseIntFilterEmpty(value[6]);
+            entity.data[month].community.female += parseIntFilterEmpty(value[7]);
+
+            if (value[8] !== '' && value[8] !== 0) {
+              entity.data[month].work.count++;
+            }
+            entity.data[month].work.man += parseIntFilterEmpty(value[9]);
+            entity.data[month].work.female += parseIntFilterEmpty(value[10]);
           });
-          console.log(results);
+          $scope.$apply();
         }
       }
     });

@@ -15,6 +15,8 @@ app.filter('zero', function () {
   }
 });
 
-app.factory('parseIntFilterEmpty', function (value) {
-  return parseInt(value) || 0;
+app.factory('parseIntFilterEmpty', function () {
+  return function (value) {
+    return parseInt(value) || 0;
+  }
 })

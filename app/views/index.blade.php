@@ -13,7 +13,7 @@
 
         <div class="result">
             <h6 class="page-header">鄉鎮設站篩檢場次及成果分析</h6>
-            <table class="table table-bordered small">
+            <table class="table table-bordered table-striped small">
                 <thead>
                     <tr>
                         <th></th>
