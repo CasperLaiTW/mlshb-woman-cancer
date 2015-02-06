@@ -68,11 +68,55 @@
                         <td ng-repeat-end>
                             <% value2.community.man%>
                         </td>
-                        <td><% total(value2, 'work', 'count') %></td>
-                        <td><% total(value2, 'work', 'man') %></td>
-                        <td><% total(value2, 'work', 'female') %></td>
+                        <td><% sumWithWork(value.data, 'work.count') %></td>
+                        <td><% sumWithWork(value.data, 'work.man') %></td>
+                        <td><% sumWithWork(value.data, 'work.female') %></td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>合計</td>
+                        <td ng-repeat="(key, value) in range(12) track by $index">
+                            <% sum(reports, $index, 'count.count') %>
+                        </td>
+                        <td>
+                            <% totalSum(reports, 'count.count') %>
+                        </td>
+                        <td ng-repeat="(key, value) in range(12) track by $index">
+                            <% sum(reports, $index, 'cervix.count') %>
+                        </td>
+                        <td>
+                            <% totalSum(reports, 'cervix.count') %>
+                        </td>
+                        <td ng-repeat="(key, value) in range(12) track by $index">
+                            <% sum(reports, $index, 'breast.count') %>
+                        </td>
+                        <td>
+                            <% totalSum(reports, 'breast.count') %>
+                        </td>
+                        <td ng-repeat="(key, value) in range(12) track by $index">
+                            <% sum(reports, $index, 'lecture.count') %>
+                        </td>
+                        <td>
+                            <% totalSum(reports, 'lecture.count') %>
+                        </td>
+                        <td ng-repeat-start="(key, value) in range(12) track by $index">
+                            <% sum(reports, $index, 'community.female') %>
+                        </td>
+                        <td ng-repeat-end>
+                            <% sum(reports, $index, 'community.man') %>
+                        </td>
+                        <td>
+                            <% totalSumWithWork(reports, 'work.count') %>
+                        </td>
+                        <td>
+                            <% totalSumWithWork(reports, 'work.man') %>
+                        </td>
+                        <td>
+                            <% totalSumWithWork(reports, 'work.female') %>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

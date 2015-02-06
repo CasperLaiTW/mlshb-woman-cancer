@@ -100,13 +100,14 @@ var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAler
             entity.data[month].community.man += parseIntFilterEmpty(value[6]);
             entity.data[month].community.female += parseIntFilterEmpty(value[7]);
 
-            if (value[8] !== '' && value[8] !== 0) {
+            if (value[8] !== '' && value[8] !== '0') {
               entity.data[month].work.count++;
             }
             entity.data[month].work.man += parseIntFilterEmpty(value[9]);
             entity.data[month].work.female += parseIntFilterEmpty(value[10]);
           });
           $scope.$apply();
+          SweetAlert.swal("Good job!", "分析完成!", "success");
         }
       }
     });
@@ -119,6 +120,52 @@ var analyticsCtrl = function ($scope, underscore, dialogs, $rootScope, SweetAler
     });
     return total;
   };
+
+  $scope.sum = function (reports, month, fields) {
+    var sum = 0,
+        field = $scope.split(fields);
+    underscore.each(reports, function (report, key) {
+      sum += report.data[month][field[0]][field[1]];
+    });
+    return sum;
+  }
+
+  $scope.sumWithWork = function (reports, fields) {
+    var sum = 0,
+        field = $scope.split(fields);
+    underscore.each(reports, function (report, key) {
+      sum += report[field[0]][field[1]];
+    });
+    return sum;
+  }
+
+  $scope.totalSumWithWork = function (reports, fields) {
+    var sum = 0,
+        field = $scope.split(fields);
+    underscore.each(reports, function (report, key) {
+      sum += $scope.sumWithWork(report.data, fields);
+    });
+    return sum;
+  };
+
+  $scope.totalSum = function (reports, fields) {
+    var sum = 0,
+        field = $scope.split(fields)
+    underscore.each(reports, function (report, key) {
+      underscore.each(report.data, function (value, key2) {
+        sum += value[field[0]][field[1]];
+      })
+    });
+    return sum;
+  }
+
+  $scope.range = function (n) {
+    return new Array(n);
+  }
+
+  $scope.split = function (fields) {
+    return fields.split('.');
+  }
 }
 
 app.controller('analyticsCtrl', analyticsCtrl);
